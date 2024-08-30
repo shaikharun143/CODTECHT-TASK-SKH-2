@@ -1,0 +1,184 @@
+/* Creating a WEATHER FORECAST  using HTML, CSS, and JavaScript is a great project to practice front-end development skills.
+Here’s an overview of how i can build a basic WEATHER FORECAST APP */
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast App</title>
+    <link rel="stylesheet" href="weatherstyles.css">
+     <style>
+         @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+}
+
+.bg-container {
+
+    background-image: radial-gradient(#79c0e0, #339ccc);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.container {
+    font-family: Arial, sans-serif;
+    align-self: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#city-input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#search-button {
+    width: 25%;
+    padding: 10px;
+    border: none;
+    background-color: #5cb85c;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #4cae4c;
+}
+
+.weather-details {
+
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #F0F8FF;
+    background-color: #79c6ed;
+}
+
+.before-weather {
+    display: none;
+}
+
+.after-weather {
+    display: block;
+}
+
+.weather-details p {
+    margin: 10px 0;
+
+}
+
+.weather-details img {
+    height: 120px;
+    width: 120px;
+}
+
+.weather-details span {
+    font-size: 13px;
+
+}
+
+     </style>
+
+</head>
+
+<body>
+    <div class="bg-container">
+        <div class="container">
+            <h1>Weather Forecast</h1>
+            <div class="search-container">
+                <input type="text" id="city-input" placeholder="Enter city name">
+                <button id="search-button">Search</button>
+            </div>
+            <div id="weather-details" class="weather-details"></div>
+        </div>
+    </div>
+    <script src="weatherScript.js">
+
+document.addEventListener('DOMContentLoaded', () => {
+   
+   const searchButton = document.getElementById('search-button');
+   const cityInput = document.getElementById('city-input');
+   const weatherDetails = document.getElementById('weather-details');
+   weatherDetails.classList.add("before-weather")
+
+   searchButton.addEventListener('click', getWeather);
+
+   async function getWeather() {
+       const city = cityInput.value.trim();
+       const apiKey = `931f131dde3f4ae2fcbc3289fc646471`
+       if (city) {
+           try {
+       
+               const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+               const data = await response.json();
+               if (data.cod === 200) {
+                   console.log(data)
+                   displayWeather(data);
+
+               } else {
+                   weatherDetails.innerHTML = `<p>City not found!</p>`;
+               }
+           } catch (error) {
+               weatherDetails.innerHTML = `<p>Failed to fetch data. Please try again later.</p>`;
+           }
+       }
+   }
+
+   function displayWeather(data) {
+       const {
+           name,
+           main,
+           weather
+
+       } = data;
+       weatherDetails.classList.remove("before-weather")
+       weatherDetails.classList.add("after-weather")
+
+       const icon = `https://openweathermap.org/img/wn/${weather[0]["icon"]}@4x.png`
+       weatherDetails.innerHTML = `
+           <p><strong>${name}</strong></p>
+           <p>Temperature: ${main.temp}°C</p>
+           
+           <p>H: <span>${main.temp_max}° </span> </p><p>   L: <span>${main.temp_min}° </span></p>
+           <img src=${icon} />
+           <p>Weather: ${weather[0].description}</p>
+           <p>Humidity: ${main.humidity}%</p>
+       `;
+   }
+});
+    </script>
+</body>
+
+</html>
