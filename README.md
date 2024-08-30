@@ -47,3 +47,7 @@ Code Breakdown: Explanation of the code structure, detailing how data is fetched
 Usage Guide: A guide on how to use the app, covering all the features.
 Responsive Design Considerations: Explanation of how the design adapts to different screen sizes.
 Future Enhancements: Suggestions for additional features or improvements.
+
+
+![image](https://github.com/user-attachments/assets/1f081eee-22bc-44d1-80c1-e3d2e3add7e1)
+
